@@ -22,3 +22,38 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# IntelliJ project files
+.idea/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Maven or Gradle build directories
+/target/
+/out/
+
+# Eclipse-specific files
+.settings/
+
+# Other build-related files
+build/
+dist/
+bin/
+
+# Application artifacts
+*.jar
+*.war
+*.ear
+
+# Dependencies
+/lib/
+
+# IDE-specific files (change these entries as needed)
+*.iml
+*.ipr
+*.iws
+
