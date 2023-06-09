@@ -1,77 +1,55 @@
-import Person.Female;
-import Person.Gender;
-import Person.Male;
-import Person.Person;
+import Person.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
 public class FunctionalTest {
-    @Test
-    public void testPersonGengerFemale() {
-        Person testFemaleObject = new Female("testFistName", "testSecondName", 18);
+    @Test(dataProvider = "femalePersons", dataProviderClass = TestDataProvider.class)
+    public void testPersonGengerFemale(Person testFemaleObject) {
         Assert.assertEquals(testFemaleObject.personGender, Gender.FEMALE, "Req#1 Failed. Fem wrong gender");
-
     }
 
-    @Test
-    public void testPersonGengerMale() {
-        Person testMaleOBject = new Male("testFistName", "testSecondName", 18);
-        Assert.assertEquals(testMaleOBject.personGender, Gender.MALE, "Req#1 Failed. Person.Male wrong gender");
-
+    @Test(dataProvider = "malePersons", dataProviderClass = TestDataProvider.class)
+    public void testPersonGengerMale(Person testMaleObject) {
+        Assert.assertEquals(testMaleObject.personGender, Gender.MALE, "Req#1 Failed. Person.Male wrong gender");
     }
 
-    @Test
-    public void testMarriage(){
-        Female Natali = new Female("Natali", "Buzok", 16);
-        Male George = new Male("George", "Miller", 28);
-        Natali.setPartner(George);
-        Assert.assertNotNull(Natali.getPartner());
-        Assert.assertNotNull(George.getPartner());
+    @Test(dataProvider = "testPersonData", dataProviderClass = TestDataProvider.class)
+    public void testMarriage(Female female, Male male) {
+        female.setPartner(male);
+        Assert.assertNotNull(female.getPartner());
+        Assert.assertNotNull(male.getPartner());
     }
 
-    @Test
-    public void testDivorce(){
-        /*
-        #4
-        Each person should have ability to break a marriage.
-         */
-
-        Female Natali = new Female("Natali", "Buzok", 16);
-        Male George = new Male("George", "Miller", 28);
-        Natali.setPartner(George);
-        George.divorce(Natali);
-        Assert.assertNull(Natali.getPartner());
-        Assert.assertNull(George.getPartner());
+    @Test(dataProvider = "testPersonData", dataProviderClass = TestDataProvider.class)
+    public void testDivorce(Female female, Male male){
+        female.setPartner(male);
+        male.divorce(female);
+        Assert.assertNull(female.getPartner());
+        Assert.assertNull(male.getPartner());
     }
 
-    @Test
-    public void testRetirement(){
-        Male George = new Male("George", "Miller", 80);
-        Assert.assertTrue(George.isRetired());
+    @Test(dataProvider = "malePersons", dataProviderClass = TestDataProvider.class)
+    public void testRetirement(Male person){
+        person.setPersonAge(80);
+        Assert.assertTrue(person.isRetired());
     }
 
-    @Test
-    public void testPregnancy(){
-        Female Natali = new Female("Natali", "Buzok", 16);
-        Male George = new Male("George", "Miller", 28);
-        Natali.makePregnant(George);
-        Assert.assertTrue(Natali.getPregnancy());
+    @Test(dataProvider = "testPersonData", dataProviderClass = TestDataProvider.class)
+    public void testPregnancy(Female female, Male male){
+        female.makePregnant(male);
+        Assert.assertTrue(female.getPregnancy());
     }
 
-    @Test
-    public void testBirth(){
-        Female Natali = new Female("Natali", "Buzok", 16);
-        Male George = new Male("George", "Miller", 28);
-        Natali.makePregnant(George);
-        Assert.assertNotNull(Natali.giveChild("childFName", "childSName", Gender.FEMALE));
+    @Test(dataProvider = "testPersonData", dataProviderClass = TestDataProvider.class)
+    public void testBirth(Female female, Male male){
+        female.makePregnant(male);
+        Assert.assertNotNull(female.giveChild("childFName", "childSName", Gender.FEMALE));
     }
 
-    @Test
-    public void testRegisterPartnership(){
-        Female Natali = new Female("Natali", "Buzok", 16);
-        Male George = new Male("George", "Miller", 28);
-        Natali.registerPartnership(George);
-        Assert.assertEquals(Natali.getLastName(), George.getLastName());
+    @Test(dataProvider = "testPersonData", dataProviderClass = TestDataProvider.class)
+    public void testRegisterPartnership(Female female, Male male){
+        female.registerPartnership(male);
+        Assert.assertEquals(female.getLastName(), male.getLastName());
     }
 }
